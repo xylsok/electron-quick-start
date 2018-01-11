@@ -1,19 +1,135 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+	<head>
+		<meta charset="UTF-8">
+		<title>项目快速创建工具---国道数据</title>
+		<link rel="stylesheet" rev="stylesheet" href="main.css">
+		<link rel="stylesheet" rev="stylesheet"
+			  href="./node_modules/_bootstrap@3.3.7@bootstrap/dist/css/bootstrap.min.css">
+		<!--<link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
+	</head>
+	<body>
+		<div class="title">基本配置</div>
+		<br/>
+		<form class="form-horizontal" role="form">
+			<div class="form-group">
+				<label for="firstname" class="col-sm-2 control-label">项目名称:</label>
+				<div class="col-sm-4 text-left">
+					<input type="text" class="form-control input-sm" id="firstname" placeholder="请输入项目名称">
+				</div>
+				<label for="firstname" class="col-sm-2 control-label">存放地址:</label>
+				<div class="col-sm-4 text-left">
+					<input type="file"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">project.groupId</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control input-sm" placeholder="project.groupId">
+				</div>
+				<label class="col-sm-2 control-label">project.artifactId</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control input-sm" placeholder="project.artifactId">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">默认包目录</label>
+				<div class="col-sm-4">
+					<input type="text" value="src/main/" class="form-control input-sm" placeholder="src/main/">
+				</div>
+				<label class="col-sm-2 control-label">程序包路径</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control input-sm" placeholder="net.gdddata.xxx">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">要创建的包名称</label>
+				<div class="col-sm-10 text-left">
+					<div class="col-sm-1">
+						<input type="text" value="dao" class="form-control input-sm" placeholder="">
+					</div>
+					<div class="col-sm-1">
+						<input type="text" value="ui" class="form-control input-sm" placeholder="">
+					</div>
+					<div class="col-sm-1">
+						<input type="text" value="modew" class="form-control input-sm" placeholder="">
+					</div>
+					<div class="col-sm-1">
+						<input type="text" value="service" class="form-control input-sm" placeholder="">
+					</div>
+					<div class="col-sm-1">
+						<input type="text" value="utils" class="form-control input-sm" placeholder="">
+					</div>
+					<div class="col-sm-1">
+						<input type="text" value="listener" class="form-control input-sm" placeholder="">
+					</div>
+					<div class="col-sm-1">
+						<input type="text" value="filter" class="form-control input-sm" placeholder="">
+					</div>
+					<div class="col-sm-1">
+						<input type="text" value="api" class="form-control input-sm" placeholder="">
+					</div>
+					<div class="col-sm-1">
+						<input type="text" value="" class="form-control input-sm" placeholder="">
+					</div>
+					<div class="col-sm-1">
+						<input type="text" value="" class="form-control input-sm" placeholder="">
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="title">数据库配置</div>
+		<br/>
+		<form class="form-horizontal" role="form">
+			<div class="form-group">
+				<label for="firstname" class="col-sm-2 control-label">jdbc.host:</label>
+				<div class="col-sm-4 text-left">
+					<input type="text" class="form-control input-sm" placeholder="jdbc.host">
+				</div>
+				<label for="firstname" class="col-sm-2 control-label">jdbc.port:</label>
+				<div class="col-sm-4 text-left">
+					<input type="text" class="form-control input-sm" placeholder="jdbc.port"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="firstname" class="col-sm-2 control-label">jdbc.username:</label>
+				<div class="col-sm-4 text-left">
+					<input type="text" class="form-control input-sm" placeholder="jdbc.username">
+				</div>
+				<label for="firstname" class="col-sm-2 control-label">jdbc.password:</label>
+				<div class="col-sm-4 text-left">
+					<input type="text" class="form-control input-sm" placeholder="jdbc.password"/>
+				</div>
+			</div>
+		</form>
+		<div class="title">Spring配置文件</div>
+		<br>
+		<form class="form-horizontal" role="form">
+			<div class="form-group">
+				<label for="firstname" class="col-sm-2 control-label">spring.application.name:</label>
+				<div class="col-sm-4 text-left">
+					<input type="text" class="form-control input-sm" placeholder="spring.application.name">
+				</div>
+				<label for="firstname" class="col-sm-2 control-label">spring.server.port:</label>
+				<div class="col-sm-4 text-left">
+					<input type="text" class="form-control input-sm" placeholder="spring.server.port"/>
+				</div>
+			</div>
+		</form>
 
-    <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
-    </script>
-  </body>
+		<form class="form-horizontal" role="form">
+			<div class="form-group">
+				<label for="firstname" class="col-sm-2 control-label"></label>
+				<div class="col-sm-4 text-left">
+					<a href="#" class="btn btn-primary btn-sm">保存</a>
+				</div>
+			</div>
+		</form>
+		<script>
+			// You can also require other files to run in this process
+			require('./renderer.js');
+			window.$ = window.jQuery = require('../node_modules/_jquery@3.2.1@jquery/dist/jquery.min.js');
+			require('../node_modules/_bootstrap@3.3.7@bootstrap/dist/js/bootstrap.min.js');
+		</script>
+	</body>
 </html>

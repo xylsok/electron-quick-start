@@ -1,0 +1,10 @@
+body{
+    padding: 0px 0px;
+}
+.title{
+    border-bottom: 1px silver solid;
+    padding: 4px 6px;
+    font-size: 18px;
+    font-weight: bold;
+    background: #eaeaea;
+}
