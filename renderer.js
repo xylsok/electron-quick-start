@@ -8,9 +8,7 @@ window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.min.js');
 const electron = require('electron');
 const dialog = electron.remote.dialog;
 const fs = electron.remote.require('fs');
-const ipc = require('electron').ipcMain;
 const  path = require("path");
-console.log(path);
 $("#selectDir").click(function () {
 	dialog.showOpenDialog({
 		properties: ['openDirectory', 'createDirectory']
@@ -41,8 +39,6 @@ $("#start").click(function () {
 	}
 })
 function start(projectPath, proName) {
-	console.log(projectPath);
-	console.log(proName);
 	var proNmae = $('#proNmae').val();
 	var groupId = $('#groupId').val();
 	var artifactId = $('#artifactId').val();
@@ -66,19 +62,83 @@ function start(projectPath, proName) {
 	var springAppProt = $('#springAppProt').val();
 	var rootPath = projectPath + "/" + proName;
 	var defRootPath = projectPath + "/" + proName+"/"+defPackageDir;
+	var newPackageDir = packageDir.replace(new RegExp("\\.",'g'),'/');
+    console.log(newPackageDir);
+    var rootPathAndPackageDir = projectPath + "/" + proName+"/"+defPackageDir+'java/'+newPackageDir;
 	var indexs = [index1,index2,index3,index4,index5,index6,index7,index8,index9];
-    mkdirs(defRootPath,function (err) {
+    mkdirs(rootPathAndPackageDir,function (err) {
         if (err) {
          	return dialog.showErrorBox('系统提示！', '创建'+defRootPath+'目录失败！');
         }
         indexs.forEach(function (x) {
-            mkdirs(defRootPath+'/'+x,function (err) {
+            mkdirs(rootPathAndPackageDir+'/'+x,function (err) {
                 if (err) {
-                    return dialog.showErrorBox('系统提示！', '创建'+defRootPath+'/'+x+'目录失败！');
+                    return dialog.showErrorBox('系统提示！', '创建'+rootPathAndPackageDir+'/'+x+'目录失败！');
                 }
             })
         })
-		$('#msg').html(defRootPath+"--目录创建成功。"+'<a href="#" id="showDir" class="btn btn-xs btn-default">查看</a>');
+
+		mkdirs(defRootPath+'/resources',function (err) {
+            if (err) {
+                return dialog.showErrorBox('系统提示！', '创建'+rootPathAndPackageDir+'/'+x+'目录失败！');
+            }
+        })
+		$('#msg').html("目录创建成功,正在拷贝文件...");
+        setTimeout(function () {
+            fs.readFile('./sources/Main.java', 'utf-8', function (error,data) {
+                fs.writeFile(rootPathAndPackageDir+'/Main.java',data,'utf-8',function (err) {
+                    if (err) {
+                        return dialog.showErrorBox('系统提示！', 'writeFile Error！');
+                    }
+                })
+            })
+            fs.readFile('./sources/Swagger2.java', 'utf-8', function (error,data) {
+                fs.writeFile(rootPathAndPackageDir+'/Swagger2.java',data,'utf-8',function (err) {
+                    if (err) {
+                        return dialog.showErrorBox('系统提示！', 'writeFile Error！');
+                    }
+                })
+            })
+            fs.readFile('./sources/JooqDao.java', 'utf-8', function (error,data) {
+                fs.writeFile(rootPathAndPackageDir+'/dao/JooqDao.java',data,'utf-8',function (err) {
+                    console.log(err);
+                    if (err) {
+                        return dialog.showErrorBox('系统提示！', 'writeFile Error！');
+                    }
+                })
+            })
+            fs.readFile('./sources/application.properties', 'utf-8', function (error,data) {
+                fs.writeFile(defRootPath+'/resources'+'/application.properties',data,'utf-8',function (err) {
+                    if (err) {
+                        return dialog.showErrorBox('系统提示！', 'writeFile Error！');
+                    }
+                })
+            })
+			fs.readFile('./sources/logback.xml', 'utf-8', function (error,data) {
+                fs.writeFile(defRootPath+'/resources'+'/logback.xml',data,'utf-8',function (err) {
+                    if (err) {
+                        return dialog.showErrorBox('系统提示！', 'writeFile Error！');
+                    }
+                })
+            })
+            fs.readFile('./sources/pom.xml', 'utf-8', function (error,data) {
+                fs.writeFile(rootPath+'/pom.xml',data,'utf-8',function (err) {
+                    if (err) {
+                        return dialog.showErrorBox('系统提示！', 'writeFile Error！');
+                    }
+                })
+            })
+			fs.readFile('./sources/.gitignore', 'utf-8', function (error,data) {
+                fs.writeFile(rootPath+'/.gitignore',data,'utf-8',function (err) {
+                    if (err) {
+                        return dialog.showErrorBox('系统提示！', 'writeFile Error！');
+                    }
+                })
+            })
+        	$('#msg').html("success "+'<a href="#" id="showDir" class="btn btn-xs btn-default">查看</a>');
+        },5000);
+
+
     })
 
 
