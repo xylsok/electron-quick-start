@@ -1,10 +1,11 @@
 {
-  "name": "electron-quick-start",
+  "name": "AutoCreateProject",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "国道数据项目创建模板工具",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "packager": "electron-packager . electron-quick-start --all --out ./outApp --version 1.4.0 --overwrite"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -14,9 +15,11 @@
     "tutorial",
     "demo"
   ],
-  "author": "GitHub",
+  "author": "zzf",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "~1.7.8"
-  }
+    "electron": "~1.7.8",
+    "electron-packager": "^10.1.1"
+  },
+  "dependencies": {}
 }

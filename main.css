@@ -8,3 +8,12 @@ body{
     font-weight: bold;
     background: #eaeaea;
 }
+.dir-item{
+    width: 10%;
+}
+.metro, .btn-metro {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0 !important;
+
+}
