@@ -30,11 +30,8 @@ $("#start").click(function () {
 	} else {
 		fs.readdir(projectPath + '/' + proNmae, function (err, data) {
 			if (data && data.length > 0) {
-				if (confirm("发现该目录下有重名项目名称是否要覆盖？")) {
-					start(projectPath, proNmae);
-				} else {
-					return;
-				}
+				dialog.showErrorBox('系统提示！', '在该目录下发现同名项目,请删除或更改该项目名称后重试！');
+				return;
 			} else {
 				start(projectPath, proNmae);
 			}
@@ -66,8 +63,28 @@ function start(projectPath, proName) {
 	var springAppName = $('#springAppName').val();
 	var springAppProt = $('#springAppProt').val();
 	var rootPath = projectPath + "/" + proName;
-	fs.mkdir(rootPath, function callback(x, y) {
-		console.log(x);
-		console.log(y);
+	var defRootPath = projectPath + "/" + proName+"/src";
+	var defRootPath2 = projectPath + "/" + proName+"/src/main";
+	//先删除
+
+	fs.mkdir(rootPath, function callback(err) {
+		if (err) {
+			return dialog.showErrorBox('系统提示！', '创建'+rootPath+'目录失败！');
+		}
+		$('#msg').html(rootPath+"--目录创建成功。");
+		fs.mkdir(defRootPath, function callback(err) {
+			if (err) {
+				return dialog.showErrorBox('系统提示！', '创建'+defRootPath+'目录失败！');
+			}
+			$('#msg').html(defRootPath+"--目录创建成功。");
+			fs.mkdir(defRootPath2, function callback(err) {
+				if (err) {
+					return dialog.showErrorBox('系统提示！', '创建'+defRootPath2+'目录失败！');
+				}
+				$('#msg').html(defRootPath2+"--目录创建成功。");
+			})
+		})
 	})
+
+
 }
