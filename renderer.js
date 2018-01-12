@@ -9,6 +9,8 @@ const electron = require('electron');
 const dialog = electron.remote.dialog;
 const fs = electron.remote.require('fs');
 const ipc = require('electron').ipcMain;
+const  path = require("path");
+console.log(path);
 $("#selectDir").click(function () {
 	dialog.showOpenDialog({
 		properties: ['openDirectory', 'createDirectory']
@@ -63,28 +65,43 @@ function start(projectPath, proName) {
 	var springAppName = $('#springAppName').val();
 	var springAppProt = $('#springAppProt').val();
 	var rootPath = projectPath + "/" + proName;
-	var defRootPath = projectPath + "/" + proName+"/src";
-	var defRootPath2 = projectPath + "/" + proName+"/src/main";
-	//先删除
-
-	fs.mkdir(rootPath, function callback(err) {
-		if (err) {
-			return dialog.showErrorBox('系统提示！', '创建'+rootPath+'目录失败！');
-		}
-		$('#msg').html(rootPath+"--目录创建成功。");
-		fs.mkdir(defRootPath, function callback(err) {
-			if (err) {
-				return dialog.showErrorBox('系统提示！', '创建'+defRootPath+'目录失败！');
-			}
-			$('#msg').html(defRootPath+"--目录创建成功。");
-			fs.mkdir(defRootPath2, function callback(err) {
-				if (err) {
-					return dialog.showErrorBox('系统提示！', '创建'+defRootPath2+'目录失败！');
-				}
-				$('#msg').html(defRootPath2+"--目录创建成功。");
-			})
-		})
-	})
+	var defRootPath = projectPath + "/" + proName+"/"+defPackageDir;
+	var indexs = [index1,index2,index3,index4,index5,index6,index7,index8,index9];
+    mkdirs(defRootPath,function (err) {
+        if (err) {
+         	return dialog.showErrorBox('系统提示！', '创建'+defRootPath+'目录失败！');
+        }
+        indexs.forEach(function (x) {
+            mkdirs(defRootPath+'/'+x,function (err) {
+                if (err) {
+                    return dialog.showErrorBox('系统提示！', '创建'+defRootPath+'/'+x+'目录失败！');
+                }
+            })
+        })
+		$('#msg').html(defRootPath+"--目录创建成功。"+'<a href="#" id="showDir" class="btn btn-xs btn-default">查看</a>');
+    })
 
 
 }
+
+
+$(document).on('click','#showDir',function(){
+
+});
+
+
+//递归创建目录 异步方法
+function mkdirs(dirname, callback) {
+    fs.exists(dirname, function (exists) {
+        if (exists) {
+            callback();
+        } else {
+            // console.log(path.dirname(dirname));
+            mkdirs(path.dirname(dirname), function () {
+                fs.mkdir(dirname, callback);
+                console.log('在' + path.dirname(dirname) + '目录创建好' + dirname  +'目录');
+            });
+        }
+    });
+}
+
