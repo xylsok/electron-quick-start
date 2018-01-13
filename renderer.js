@@ -109,6 +109,14 @@ function start(projectPath, proName) {
 					}
 				})
 			})
+			fs.readFile('./sources/README.md', 'utf-8', function (error, data) {
+				data = data.replace('myPackage', newDirPackageDir);
+				fs.writeFile(rootPath + '/README.md', data, 'utf-8', function (err) {
+					if (err) {
+						return dialog.showErrorBox('系统提示！', 'writeFile Error！');
+					}
+				})
+			})
 			fs.readFile('./sources/JooqDao.java', 'utf-8', function (error, data) {
 				data = data.replace('myDefaultPackPath', newDirPackageDir);
 				fs.writeFile(rootPathAndPackageDir + '/dao/JooqDao.java', data, 'utf-8', function (err) {
