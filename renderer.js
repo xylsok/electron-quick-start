@@ -8,6 +8,7 @@ window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.min.js');
 const electron = require('electron');
 const dialog = electron.remote.dialog;
 const fs = electron.remote.require('fs');
+const shell = require('electron').shell;
 const path = require("path");
 $("#selectDir").click(function () {
 	dialog.showOpenDialog({
@@ -16,8 +17,9 @@ $("#selectDir").click(function () {
 		$('#projectPath').text(x[0]);
 	});
 })
-$('#proNmae').keyup(function(){
+$('#proNmae').keyup(function () {
 	$('#springAppName').val($('#proNmae').val());
+	$('#artifactId').val($('#proNmae').val())
 })
 $("#start").click(function () {
 	var projectPath = $('#projectPath').text();
@@ -90,7 +92,7 @@ function start(projectPath, proName) {
 		$('#msg').html("目录创建成功,正在拷贝文件...");
 		setTimeout(function () {
 			fs.readFile('./sources/Main.java', 'utf-8', function (error, data) {
-				data=data.replace('myPackage',newDirPackageDir);
+				data = data.replace('myPackage', newDirPackageDir);
 				fs.writeFile(rootPathAndPackageDir + '/Main.java', data, 'utf-8', function (err) {
 					if (err) {
 						return dialog.showErrorBox('系统提示！', 'writeFile Error！');
@@ -98,9 +100,9 @@ function start(projectPath, proName) {
 				})
 			})
 			fs.readFile('./sources/Swagger2.java', 'utf-8', function (error, data) {
-				data= data.replace('myPackage',newDirPackageDir);
-				data= data.replace('mySwaggerDir',newDirPackageDir+'.ui');
-				data= data.replace('myProdectName',proNmae);
+				data = data.replace('myPackage', newDirPackageDir);
+				data = data.replace('mySwaggerDir', newDirPackageDir + '.ui');
+				data = data.replace('myProdectName', proNmae);
 				fs.writeFile(rootPathAndPackageDir + '/Swagger2.java', data, 'utf-8', function (err) {
 					if (err) {
 						return dialog.showErrorBox('系统提示！', 'writeFile Error！');
@@ -108,7 +110,7 @@ function start(projectPath, proName) {
 				})
 			})
 			fs.readFile('./sources/JooqDao.java', 'utf-8', function (error, data) {
-				data= data.replace('myDefaultPackPath',newDirPackageDir);
+				data = data.replace('myDefaultPackPath', newDirPackageDir);
 				fs.writeFile(rootPathAndPackageDir + '/dao/JooqDao.java', data, 'utf-8', function (err) {
 					console.log(err);
 					if (err) {
@@ -158,11 +160,14 @@ function start(projectPath, proName) {
 					}
 				})
 			})
-			$('#msg').html("success " + '<a href="#" id="showDir" class="btn btn-xs btn-default">查看</a>');
+			$('#msg').html("success " + '&nbsp;&nbsp;&nbsp;&nbsp; <a href="#" id="showDir" class="btn btn-xs btn-default">查看</a>');
 		}, 5000);
 	})
 }
 $(document).on('click', '#showDir', function () {
+	var projectPath = $('#projectPath').text();
+	var proNmae = $('#proNmae').val();
+	shell.showItemInFolder(projectPath + "/" + proNmae);
 });
 //递归创建目录 异步方法
 function mkdirs(dirname, callback) {
