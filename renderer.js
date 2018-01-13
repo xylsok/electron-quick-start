@@ -147,6 +147,7 @@ function start(projectPath, proName) {
 				data = data.replace('myPassword', jdbcPwd);
 				data = data.replace('myPort', jdbcPort);
 				data = data.replace('myDb', jdbcDb);
+				data = data.replace('myTable', "*");
 				fs.writeFile(rootPath + '/pom.xml', data, 'utf-8', function (err) {
 					if (err) {
 						return dialog.showErrorBox('系统提示！', 'writeFile Error！');
