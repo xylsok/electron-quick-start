@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.xyls</groupId>
-    <artifactId>wwyz-api</artifactId>
+    <groupId>myGroupId</groupId>
+    <artifactId>myArtifactId</artifactId>
     <version>1.0-SNAPSHOT</version>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -54,11 +54,6 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-core</artifactId>
-            <version>1.2.4</version>
-        </dependency>
         <!--eureka -->
         <!--<dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -83,10 +78,6 @@
             <groupId>net.gddata.common</groupId>
             <artifactId>common-util</artifactId>
             <version>${common-util.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
     </dependencies>
     <dependencyManagement>
@@ -141,7 +132,7 @@
                         <database>
                             <name>org.jooq.util.mysql.MySQLDatabase</name>
                             <inputSchema>${jdbc.db}</inputSchema>
-                            <includes>user</includes>
+                            <includes>organ</includes>
                             <excludes/>
                         </database>
                         <target>
@@ -188,34 +179,13 @@
                 <java.version>1.8</java.version>
                 <mysql.version>5.1.37</mysql.version>
                 <jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
-                <jdbc.host>xylsok.com</jdbc.host>
-                <jdbc.port>3306</jdbc.port>
+                <jdbc.host>myHost</jdbc.host>
+                <jdbc.port>myPort</jdbc.port>
                 <jdbc.url>jdbc:mysql://${jdbc.host}:${jdbc.port}</jdbc.url>
-                <jdbc.username>root</jdbc.username>
-                <jdbc.password>123456</jdbc.password>
-                <jdbc.db>wwyz</jdbc.db>
+                <jdbc.username>myUsername</jdbc.username>
+                <jdbc.password>myPassword</jdbc.password>
+                <jdbc.db>myDb</jdbc.db>
                 <swagger.version>2.5.0</swagger.version>
-                <common-util.version>1.2.1.3-SNAPSHOT</common-util.version>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>product</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-                <java.version>1.8</java.version>
-                <mysql.version>5.1.37</mysql.version>
-                <jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
-                 <jdbc.host>xylsok.com</jdbc.host>
-                <jdbc.port>3306</jdbc.port>
-                <jdbc.url>jdbc:mysql://${jdbc.host}:${jdbc.port}</jdbc.url>
-                <jdbc.username>root</jdbc.username>
-                <jdbc.password>123456</jdbc.password>
-                <jdbc.db>wwyz</jdbc.db>
-                <swagger.version>2.4.0</swagger.version>
                 <common-util.version>1.2.1.3-SNAPSHOT</common-util.version>
             </properties>
         </profile>
