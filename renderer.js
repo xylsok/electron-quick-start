@@ -4,12 +4,13 @@
 //var jq = require("jquery");
 //console.log(jq);
 //require('./node_modules/jquery/dist/jquery.min.js');
-window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.min.js');
+const $= require('./jquery.min.js');
 const electron = require('electron');
 const dialog = electron.remote.dialog;
 const fs = electron.remote.require('fs');
 const shell = require('electron').shell;
 const path = require("path");
+
 $("#selectDir").click(function () {
 	dialog.showOpenDialog({
 		properties: ['openDirectory', 'createDirectory']
@@ -91,7 +92,7 @@ function start(projectPath, proName) {
 		})
 		$('#msg').html("目录创建成功,正在拷贝文件...");
 		setTimeout(function () {
-			fs.readFile('./sources/Main.java', 'utf-8', function (error, data) {
+			fs.readFile(__dirname+'/sources/Main.java', 'utf-8', function (error, data) {
 				data = data.replace('myPackage', newDirPackageDir);
 				fs.writeFile(rootPathAndPackageDir + '/Main.java', data, 'utf-8', function (err) {
 					if (err) {
@@ -99,7 +100,7 @@ function start(projectPath, proName) {
 					}
 				})
 			})
-			fs.readFile('./sources/Swagger2.java', 'utf-8', function (error, data) {
+			fs.readFile(__dirname+'/sources/Swagger2.java', 'utf-8', function (error, data) {
 				data = data.replace('myPackage', newDirPackageDir);
 				data = data.replace('mySwaggerDir', newDirPackageDir + '.ui');
 				data = data.replace('myProdectName', proNmae);
@@ -109,7 +110,7 @@ function start(projectPath, proName) {
 					}
 				})
 			})
-			fs.readFile('./sources/README.md', 'utf-8', function (error, data) {
+			fs.readFile(__dirname+'/sources/README.md', 'utf-8', function (error, data) {
 				data = data.replace('myPackage', newDirPackageDir);
 				fs.writeFile(rootPath + '/README.md', data, 'utf-8', function (err) {
 					if (err) {
@@ -117,7 +118,7 @@ function start(projectPath, proName) {
 					}
 				})
 			})
-			fs.readFile('./sources/JooqDao.java', 'utf-8', function (error, data) {
+			fs.readFile(__dirname+'/sources/JooqDao.java', 'utf-8', function (error, data) {
 				data = data.replace('myDefaultPackPath', newDirPackageDir);
 				fs.writeFile(rootPathAndPackageDir + '/dao/JooqDao.java', data, 'utf-8', function (err) {
 					console.log(err);
@@ -126,7 +127,7 @@ function start(projectPath, proName) {
 					}
 				})
 			})
-			fs.readFile('./sources/application.properties', 'utf-8', function (error, data) {
+			fs.readFile(__dirname+'/sources/application.properties', 'utf-8', function (error, data) {
 				data = data.replace('myPajectName', springAppName);
 				data = data.replace("myPort", springAppProt);
 				data = data.replace("myJdbcHost", jdbcHost);
@@ -140,14 +141,14 @@ function start(projectPath, proName) {
 					}
 				})
 			})
-			fs.readFile('./sources/logback.xml', 'utf-8', function (error, data) {
+			fs.readFile(__dirname+'/sources/logback.xml', 'utf-8', function (error, data) {
 				fs.writeFile(defRootPath + '/resources' + '/logback.xml', data, 'utf-8', function (err) {
 					if (err) {
 						return dialog.showErrorBox('系统提示！', 'writeFile Error！');
 					}
 				})
 			})
-			fs.readFile('./sources/pom.xml', 'utf-8', function (error, data) {
+			fs.readFile(__dirname+'/sources/pom.xml', 'utf-8', function (error, data) {
 				data = data.replace('myGroupId', groupId);
 				data = data.replace('myArtifactId', artifactId);
 				data = data.replace('myHost', jdbcHost);
@@ -162,7 +163,7 @@ function start(projectPath, proName) {
 					}
 				})
 			})
-			fs.readFile('./sources/.gitignore', 'utf-8', function (error, data) {
+			fs.readFile(__dirname+'/sources/.gitignore', 'utf-8', function (error, data) {
 				fs.writeFile(rootPath + '/.gitignore', data, 'utf-8', function (err) {
 					if (err) {
 						return dialog.showErrorBox('系统提示！', 'writeFile Error！');
