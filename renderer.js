@@ -10,6 +10,7 @@ const dialog = electron.remote.dialog;
 const fs = electron.remote.require('fs');
 const shell = require('electron').shell;
 const path = require("path");
+const exec = require('child_process').exec;
 
 $("#selectDir").click(function () {
 	dialog.showOpenDialog({
@@ -170,7 +171,7 @@ function start(projectPath, proName) {
 					}
 				})
 			})
-			$('#msg').html("success " + '&nbsp;&nbsp;&nbsp;&nbsp; <a href="#" id="showDir" class="btn btn-xs btn-default">查看</a>');
+			$('#msg').html("success " + '&nbsp;&nbsp;&nbsp;&nbsp; <a href="#" id="showDir" class="btn btn-xs btn-metro btn-default">查看</a>  <a href="#" id="openFile" class="btn btn-xs btn-metro btn-default">用IDEA打开</a>');
 		}, 5000);
 	})
 }
@@ -179,7 +180,20 @@ $(document).on('click', '#showDir', function () {
 	var proNmae = $('#proNmae').val();
 	shell.showItemInFolder(projectPath + "/" + proNmae);
 });
-//递归创建目录 异步方法
+
+$(document).on('click', '#openFile', function () {
+	var projectPath = $('#projectPath').text();
+	var proNmae = $('#proNmae').val();
+	var path = projectPath + '/' + proNmae;
+	var cmdStr = './openidea.sh '+path;
+	exec(cmdStr, function(err,stdout,stderr){
+		if(err) {
+			dialog.showErrorBox('系统提示！', '打开IDEA遇到错误，请手动打开');
+			return;
+		}
+	});
+});
+
 function mkdirs(dirname, callback) {
 	fs.exists(dirname, function (exists) {
 		if (exists) {
