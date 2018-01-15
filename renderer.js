@@ -4,14 +4,13 @@
 //var jq = require("jquery");
 //console.log(jq);
 //require('./node_modules/jquery/dist/jquery.min.js');
-const $= require('./jquery.min.js');
+const $ = require('./jquery.min.js');
 const electron = require('electron');
 const dialog = electron.remote.dialog;
 const fs = electron.remote.require('fs');
 const shell = require('electron').shell;
 const path = require("path");
 const exec = require('child_process').exec;
-
 $("#selectDir").click(function () {
 	dialog.showOpenDialog({
 		properties: ['openDirectory', 'createDirectory']
@@ -93,7 +92,7 @@ function start(projectPath, proName) {
 		})
 		$('#msg').html("目录创建成功,正在拷贝文件...");
 		setTimeout(function () {
-			fs.readFile(__dirname+'/sources/Main.java', 'utf-8', function (error, data) {
+			fs.readFile(__dirname + '/sources/Main.java', 'utf-8', function (error, data) {
 				data = data.replace('myPackage', newDirPackageDir);
 				fs.writeFile(rootPathAndPackageDir + '/Main.java', data, 'utf-8', function (err) {
 					if (err) {
@@ -101,7 +100,7 @@ function start(projectPath, proName) {
 					}
 				})
 			})
-			fs.readFile(__dirname+'/sources/Swagger2.java', 'utf-8', function (error, data) {
+			fs.readFile(__dirname + '/sources/Swagger2.java', 'utf-8', function (error, data) {
 				data = data.replace('myPackage', newDirPackageDir);
 				data = data.replace('mySwaggerDir', newDirPackageDir + '.ui');
 				data = data.replace('myProdectName', proNmae);
@@ -111,7 +110,7 @@ function start(projectPath, proName) {
 					}
 				})
 			})
-			fs.readFile(__dirname+'/sources/README.md', 'utf-8', function (error, data) {
+			fs.readFile(__dirname + '/sources/README.md', 'utf-8', function (error, data) {
 				data = data.replace('myPackage', newDirPackageDir);
 				fs.writeFile(rootPath + '/README.md', data, 'utf-8', function (err) {
 					if (err) {
@@ -119,7 +118,7 @@ function start(projectPath, proName) {
 					}
 				})
 			})
-			fs.readFile(__dirname+'/sources/JooqDao.java', 'utf-8', function (error, data) {
+			fs.readFile(__dirname + '/sources/JooqDao.java', 'utf-8', function (error, data) {
 				data = data.replace('myDefaultPackPath', newDirPackageDir);
 				fs.writeFile(rootPathAndPackageDir + '/dao/JooqDao.java', data, 'utf-8', function (err) {
 					console.log(err);
@@ -128,7 +127,7 @@ function start(projectPath, proName) {
 					}
 				})
 			})
-			fs.readFile(__dirname+'/sources/application.properties', 'utf-8', function (error, data) {
+			fs.readFile(__dirname + '/sources/application.properties', 'utf-8', function (error, data) {
 				data = data.replace('myPajectName', springAppName);
 				data = data.replace("myPort", springAppProt);
 				data = data.replace("myJdbcHost", jdbcHost);
@@ -142,14 +141,14 @@ function start(projectPath, proName) {
 					}
 				})
 			})
-			fs.readFile(__dirname+'/sources/logback.xml', 'utf-8', function (error, data) {
+			fs.readFile(__dirname + '/sources/logback.xml', 'utf-8', function (error, data) {
 				fs.writeFile(defRootPath + '/resources' + '/logback.xml', data, 'utf-8', function (err) {
 					if (err) {
 						return dialog.showErrorBox('系统提示！', 'writeFile Error！');
 					}
 				})
 			})
-			fs.readFile(__dirname+'/sources/pom.xml', 'utf-8', function (error, data) {
+			fs.readFile(__dirname + '/sources/pom.xml', 'utf-8', function (error, data) {
 				data = data.replace('myGroupId', groupId);
 				data = data.replace('myArtifactId', artifactId);
 				data = data.replace('myHost', jdbcHost);
@@ -164,7 +163,7 @@ function start(projectPath, proName) {
 					}
 				})
 			})
-			fs.readFile(__dirname+'/sources/.gitignore', 'utf-8', function (error, data) {
+			fs.readFile(__dirname + '/sources/.gitignore', 'utf-8', function (error, data) {
 				fs.writeFile(rootPath + '/.gitignore', data, 'utf-8', function (err) {
 					if (err) {
 						return dialog.showErrorBox('系统提示！', 'writeFile Error！');
@@ -180,20 +179,18 @@ $(document).on('click', '#showDir', function () {
 	var proNmae = $('#proNmae').val();
 	shell.showItemInFolder(projectPath + "/" + proNmae);
 });
-
 $(document).on('click', '#openFile', function () {
 	var projectPath = $('#projectPath').text();
 	var proNmae = $('#proNmae').val();
 	var path = projectPath + '/' + proNmae;
-	var cmdStr = './openidea.sh '+path;
-	exec(cmdStr, function(err,stdout,stderr){
-		if(err) {
+	var cmdStr = __dirname + '/openidea.sh ' + path;
+	exec(cmdStr, function (err, stdout, stderr) {
+		if (err) {
 			dialog.showErrorBox('系统提示！', '打开IDEA遇到错误，请手动打开');
 			return;
 		}
 	});
 });
-
 function mkdirs(dirname, callback) {
 	fs.exists(dirname, function (exists) {
 		if (exists) {
@@ -207,4 +204,61 @@ function mkdirs(dirname, callback) {
 		}
 	});
 }
+var template = [
+	{
+		submenu: [
+			{
+				label: '关于',
+				click: function () {
+					dialog.showMessageBox({type: 'info', title: '系统信息！', message: 'Electron V1.7.10'});
+				}
+			}
+		]
+	},
+	{
+		label: '编辑',
+		submenu: [{
+			label: 'Undo',
+			accelerator: 'CmdOrCtrl+Z',
+			selector: 'undo:'
+		}, {
+			label: 'Redo',
+			accelerator: 'Shift+CmdOrCtrl+Z',
+			selector: 'redo:'
+		}, {
+			type: 'separator'
+		}, {
+			label: 'Cut',
+			accelerator: 'CmdOrCtrl+X',
+			selector: 'cut:'
+		}, {
+			label: 'Copy',
+			accelerator: 'CmdOrCtrl+C',
+			selector: 'copy:'
+		}, {
+			label: 'Paste',
+			accelerator: 'CmdOrCtrl+V',
+			selector: 'paste:'
+		}, {
+			label: 'Select All',
+			accelerator: 'CmdOrCtrl+A',
+			selector: 'selectAll:'
+		}]
+	}, {
+		label: '其他',
+		submenu: [
+			{
+				label: '打开Git',
+				click: function () {
+					shell.openExternal('http://git.gddata.net/')
+				}
+			},
+			{
+				type: 'separator'
+			}
+		]
+	}]
+var Menu = electron.remote.Menu;
+var menu = Menu.buildFromTemplate(template);
+Menu.setApplicationMenu(menu);
 
